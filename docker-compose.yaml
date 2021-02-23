@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  rocketpay:
+    container_name: rocketpay
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    volumes:
+      - .:/app
+    ports:
+      - "4010:4000"
+    restart: always
+    networks:
+      rocketpay_network:
+        ipv4_address: 172.25.1.1
+    depends_on:
+      - rocketpay_db
+
+  rocketpay_db:
+    container_name: rocketpay_db
+    image: postgres:12.1
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_DB: "rocketpay_db"
+      POSTGRES_USER: "rocketpay_user"
+      POSTGRES_PASSWORD: "rocketpay_password"
+    restart: always
+    networks:
+      rocketpay_network:
+        ipv4_address: 172.25.1.2
+
+networks:
+  rocketpay_network:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.25.0.0/16
