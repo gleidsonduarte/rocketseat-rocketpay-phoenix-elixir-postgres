@@ -10,7 +10,6 @@ RUN apt-get update && \
 WORKDIR /app
 COPY . .
 
-RUN mix deps.get && \
-    mix deps.compile
+RUN mix do deps.get, deps.compile
 
 ENTRYPOINT ["/bin/sh", "-c" , "mix phx.server" ]

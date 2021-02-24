@@ -14,6 +14,7 @@ defmodule RocketpayWeb.WellcomeController do
     |> put_status(:ok)
     |> json(%{message: "Welcome to Rocketpay API. Here is your number #{result}"})
   end
+
   defp handle_response({:error, reason}, conn) do
     conn
     |> put_status(:bad_request)
